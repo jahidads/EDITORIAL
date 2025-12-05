@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAHID EDITORIAL | Visual Artist</title>
+    <link rel="icon" href="https://cdn.pixabay.com/animation/2023/10/10/13/26/13-26-07-593_512.gif" type="image/x-icon">
+    <author" content="Jahidads">
+    <publisher" content="JAHID EDITORIAL">
+    <description" content="JAHID EDITORIAL is a visual artist specializing in editorial and portrait photography. Explore timeless imagery, print collections, and book sessions.">
+    <publication date content="2025-12-05">
+    <keywords" content="JAHID EDITORIAL, photography, editorial photography, portrait photography, visual artist, photo prints, book a session, photography portfolio, timeless imagery, print collections">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f0f0f',
+                            gold: '#D4AF37', // Muted gold for accents
+                            gray: '#888888',
+                            surface: '#141414'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'marquee': 'marquee 25s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'grain': 'grain 8s steps(10) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                        grain: {
+                            '0%, 100%': { transform: 'translate(0, 0)' },
+                            '10%': { transform: 'translate(-5%, -10%)' },
+                            '20%': { transform: 'translate(-15%, 5%)' },
+                            '30%': { transform: 'translate(7%, -25%)' },
+                            '40%': { transform: 'translate(-5%, 25%)' },
+                            '50%': { transform: 'translate(-15%, 10%)' },
+                            '60%': { transform: 'translate(15%, 0%)' },
+                            '70%': { transform: 'translate(0%, 15%)' },
+                            '80%': { transform: 'translate(3%, 35%)' },
+                            '90%': { transform: 'translate(-10%, 10%)' },
+                        }
+                    },
+                    cursor: {
+                        'none': 'none',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f0f0f; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+        /* Loader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #0f0f0f;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Custom Cursor */
+        body { cursor: none; }
+        @media (max-width: 768px) { body { cursor: auto; } }
+        
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        #custom-cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(136, 0, 0, 0.623);
+            border-color: transparent;
+            opacity: 0.5;
+        }
+
+        /* Film Grain Overlay */
+        #grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            overflow: hidden;
+            opacity: 0.05;
+        }
+        #grain-overlay:after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+            animation: grain 8s steps(10) infinite;
+        }
+
+        /* Removed: overlay styles (disabled) */
+
+        /* Command Palette */
+        #cmd-palette {
+            transition: opacity 0.2s ease;
+        }
+        .cmd-option {
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .cmd-option:hover, .cmd-option.active {
+            background-color: #1a1a1a;
+            border-left-color: #D4AF37;
+            padding-left: 1.5rem;
+        }
+
+        /* Custom Context Menu */
+        #context-menu {
+            display: none;
+            position: absolute;
+            z-index: 10000;
+            width: 200px;
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 8px 0;
+        }
+        .ctx-item {
+            padding: 12px 24px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #888;
+            cursor: none; /* Use custom cursor */
+            transition: all 0.2s;
+        }
+        .ctx-item:hover {
+            background: #1a1a1a;
+            color: #D4AF37;
+            padding-left: 28px;
+        }
+
+        /* Developing Animation Effect */
+        .develop-reveal {
+            opacity: 0;
+            filter: blur(10px) grayscale(100%);
+            transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .develop-reveal.developed {
+            opacity: 1;
+            filter: blur(0) grayscale(0%);
+        }
+
+        /* Hover Effects */
+        .hover-underline-animation {
+            display: inline-block;
+            position: relative;
+        }
+        .hover-underline-animation::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #D4AF37;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .hover-underline-animation:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* 3D Tilt Effect */
+        .tilt-card {
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: #D4AF37;
+            z-index: 100;
+            transition: width 0.1s;
+        }
+
+        /* Utility */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Accordion transition */
+        .accordion-content { transition: max-height 0.3s ease-out, padding 0.3s ease; max-height: 0; overflow: hidden; }
+
+        /* Before/After Slider */
+        .ba-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .ba-image-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .resize {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            overflow: hidden;
+            border-right: 2px solid #D4AF37;
+            z-index: 10;
+        }
+        .handle {
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            top: 50%;
+            right: -20px;
+            transform: translateY(-50%);
+            background: #D4AF37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: ew-resize;
+            z-index: 20;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        input[type="range"].ba-range {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: ew-resize;
+            z-index: 30;
+        }
+
+        /* Frame Effect for Shop */
+        .frame {
+            box-shadow: 
+                inset 0 0 0 10px #1a1a1a, 
+                inset 0 0 0 12px #333,
+                10px 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        /* Calendar Styles */
+        .calendar-day {
+            transition: all 0.3s;
+        }
+        .calendar-day:hover:not(.disabled) {
+            background-color: #D4AF37;
+            color: black;
+            cursor: none; /* Keep custom cursor */
+        }
+        .calendar-day.selected {
+            background-color: #D4AF37;
+            color: black;
+        }
+
+        /* CRT Scanline Effect for Motion Section */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Map Beacon Pulse */
+        .beacon {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #D4AF37;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(212, 175, 55, 0.4);
+            animation: pulse-gold 2s infinite;
+        }
+        @keyframes pulse-gold {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(212, 175, 55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+            }
+        }
+
+        /* Lens Simulator Active State */
+        .lens-btn.active {
+            background-color: #D4AF37;
+            color: black;
+            border-color: #D4AF37;
+        }
+        
+        /* Favorites Heart Animation */
+        .fav-heart.active {
+            color: #ef4444; /* Red */
+            transform: scale(1.1);
+        }
+        .fav-heart {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Contact Sheet Loupe Effect */
+        .contact-sheet-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .loupe {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid #D4AF37;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            background-repeat: no-repeat;
+            background-color: black;
+            z-index: 20;
+            transition: transform 0.2s ease-out;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .contact-sheet-item:hover .loupe {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+
+        /* EXIF Data Reveal */
+        .gallery-grid-container.show-exif .gallery-item .exif-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .exif-overlay {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Histogram Bars */
+        .hist-bar {
+            display: inline-block;
+            width: 4px;
+            background: #D4AF37;
+            margin-right: 1px;
+            opacity: 0.7;
+            border-radius: 1px 1px 0 0;
+        }
+
+        /* List View Hover Reveal */
+        .list-row:hover .list-thumb {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+        .list-thumb {
+            opacity: 0;
+            transform: translateY(-50%) scale(0.9);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        
+        /* Dot Navigation */
+        #dot-nav {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-dot.active {
+            background-color: #D4AF37;
+            transform: scale(1.2);
+        }
+        .nav-dot:hover::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #D4AF37;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            opacity: 1;
+        }
+        .nav-dot::after {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-200 antialiased selection:bg-brand-gold selection:text-black">
+
+    <!-- Global Grain Overlay -->
+    <div id="grain-overlay"></div>
+
+    <!-- Removed overlay (disabled) -->
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Dot Navigation -->
+    <div id="dot-nav" class="hidden md:flex">
+        <div class="nav-dot cursor-hover" data-label="Home" onclick="document.getElementById('home').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Portfolio" onclick="document.getElementById('portfolio').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Drop" onclick="document.getElementById('print-drop').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Archive" onclick="document.getElementById('archive').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Gear" onclick="document.getElementById('gear').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Workshops" onclick="document.getElementById('workshops').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Shop" onclick="document.getElementById('shop').scrollIntoView()"></div>
+        <div class="nav-dot cursor-hover" data-label="Contact" onclick="document.getElementById('contact').scrollIntoView()"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="hidden md:block"></div>
+
+    <!-- Command Palette (NEW) -->
+    <div id="cmd-palette" class="fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm hidden flex justify-center items-start pt-32 opacity-0 transition-opacity">
+        <div class="bg-[#141414] border border-white/10 w-full max-w-xl shadow-2xl rounded-lg overflow-hidden">
+            <div class="flex items-center px-4 py-4 border-b border-white/5">
+                <i class="ph ph-magnifying-glass text-gray-500 text-xl mr-3"></i>
+                <input type="text" id="cmd-input" placeholder="Type a command or search..." class="bg-transparent w-full outline-none text-white font-sans placeholder-gray-600 cursor-none">
+                <span class="text-xs text-gray-600 border border-white/10 px-2 py-1 rounded">ESC</span>
+            </div>
+            <div class="py-2" id="cmd-list">
+                <div class="px-4 py-2 text-[10px] tracking-widest text-gray-500 uppercase">Navigation</div>
+                <div class="cmd-option px-4 py-3 text-gray-300 cursor-none flex justify-between items-center" onclick="navigateTo('#portfolio')">
+                    <span>Go to Gallery</span>
+                    <i class="ph ph-arrow-right text-gray-600"></i>
+                </div>
+                <div class="cmd-option px-4 py-3 text-gray-300 cursor-none flex justify-between items-center" onclick="navigateTo('#shop')">
+                    <span>Go to Print Shop</span>
+                    <i class="ph ph-arrow-right text-gray-600"></i>
+                </div>
+                <div class="cmd-option px-4 py-3 text-gray-300 cursor-none flex justify-between items-center" onclick="navigateTo('#contact')">
+                    <span>Book a Session</span>
+                    <i class="ph ph-arrow-right text-gray-600"></i>
+                </div>
+                <div class="px-4 py-2 text-[10px] tracking-widest text-gray-500 uppercase mt-2">Actions</div>
+                <div class="cmd-option px-4 py-3 text-gray-300 cursor-none flex justify-between items-center" onclick="copyEmail(); toggleCmdPalette()">
+                    <span>Copy Email Address</span>
+                    <i class="ph ph-copy text-gray-600"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Context Menu -->
+    <div id="context-menu">
+        <div class="ctx-item" onclick="toggleCmdPalette()">Command Palette (⌘K)</div>
+        <div class="ctx-item border-t border-white/10 mt-1 pt-1" onclick="window.location.href='#portfolio'">Back to Portfolio</div>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="text-center">
+            <h1 class="font-serif text-3xl italic text-white tracking-widest animate-pulse">JAHID EDITORIAL</h1>
+            <p class="text-[10px] tracking-[0.4em] text-brand-gold mt-2">LOADING PORTFOLIO</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+            <a href="#" class="cursor-hover font-serif text-2xl md:text-3xl font-light tracking-wide text-white z-50 relative mix-blend-difference">
+                JAHID <span class="text-brand-gold italic">EDITORIAL</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-12 text-xs tracking-[0.2em] font-medium">
+                <a href="#home" class="cursor-hover hover-underline-animation pb-1">HOME</a>
+                <a href="#portfolio" class="cursor-hover hover-underline-animation pb-1">Gallery</a>
+                <a href="#shop" class="cursor-hover hover-underline-animation pb-1">PRINTS</a>
+                
+                <!-- Audio Toggle -->
+                <button onclick="toggleAudio()" id="audio-btn" class="cursor-hover hover:text-brand-gold transition-colors" title="Ambient Sound">
+                    <i class="ph-fill ph-speaker-slash"></i>
+                </button>
+
+                <!-- Darkroom Toggle removed -->
+
+                <!-- Search Trigger -->
+                <button onclick="toggleCmdPalette()" class="cursor-hover hover:text-white transition-colors text-gray-400" title="Search (Cmd+K)">
+                    <i class="ph ph-magnifying-glass"></i>
+                </button>
+
+                <a href="#contact" class="cursor-hover px-6 py-2 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300">BOOK NOW</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="toggleMenu()" class="md:hidden z-50 text-2xl text-white mix-blend-difference">
+                <i class="ph ph-list" id="menu-icon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Moodboard Counter (Floating) -->
+    <div id="moodboard-counter" class="fixed bottom-8 left-8 z-40 hidden bg-brand-surface border border-white/10 px-4 py-3 rounded-full shadow-2xl flex items-center gap-3 cursor-pointer hover:border-brand-gold transition-colors">
+        <i class="ph-fill ph-heart text-brand-gold animate-pulse"></i>
+        <span class="text-xs tracking-widest text-white"><span id="fav-count">0</span> SAVED</span>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-dark z-40 translate-x-full transition-transform duration-500 ease-in-out flex flex-col justify-center items-center space-y-8">
+        <a href="#home" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Home</a>
+        <a href="#portfolio" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Gallery</a>
+        <a href="#archive" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Archive</a>
+        <a href="#shop" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Print Shop</a>
+        <a href="#workshops" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Workshops</a>
+        <a href="#contact" onclick="toggleMenu()" class="font-serif text-4xl italic hover:text-brand-gold transition-colors">Contact</a>
+        <div class="mt-6 flex items-center gap-6">
+            <button id="mobile-audio-btn" onclick="toggleAudio(); toggleMenu();" class="cursor-hover w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-colors" title="Ambient Sound">
+                <i class="ph ph-speaker-slash text-xl"></i>
+            </button>
+            <button id="mobile-cmd-btn" onclick="toggleCmdPalette();" class="cursor-hover w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-colors" title="Search (Cmd+K)">
+                <i class="ph ph-magnifying-glass text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Client Login Modal -->
+    <div id="client-modal" class="fixed inset-0 z-[60] bg-black/95 hidden flex justify-center items-center opacity-0 transition-opacity duration-300 backdrop-blur-sm">
+        <div class="relative w-full max-w-md p-8 bg-brand-surface border border-white/10 text-center transform scale-95 transition-transform duration-300" id="client-modal-content">
+            <button onclick="toggleClientModal()" class="cursor-hover absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+            <h3 class="font-serif text-3xl italic text-white mb-2">Client Access</h3>
+            <p class="text-xs text-gray-500 tracking-widest mb-8">ENTER YOUR GALLERY PASSWORD</p>
+            <form onsubmit="handleClientLogin(event)" class="space-y-4">
+                <input type="password" placeholder="Password" class="cursor-hover w-full bg-[#0a0a0a] border border-white/10 p-3 text-center text-white tracking-widest outline-none focus:border-brand-gold transition-colors">
+                <button type="submit" class="cursor-hover w-full bg-brand-gold text-black font-medium tracking-widest py-3 hover:bg-white transition-colors">ENTER GALLERY</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section with Slideshow -->
+    <section id="home" class="relative h-screen w-full overflow-hidden">
+        <!-- Slides -->
+        <div id="hero-slider" class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-100" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" style="background-image: url('https://cdn.pixabay.com/photo/2020/05/14/15/31/photo-camera-5170099_640.jpg');"></div>
+            <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out opacity-0" style="background-image: url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop');"></div>
+        </div>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
+
+        <!-- Content -->
+        <div class="relative z-20 h-full flex flex-col justify-center items-center text-center px-4">
+            <p class="text-xs md:text-sm tracking-[0.5em] text-gray-300 mb-6 animate-slide-up" style="animation-delay: 0.2s;">EDITORIAL & PORTRAIT</p>
+            <div class="animate-slide-up" style="animation-delay: 0.4s;">
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-serif text-white mb-8 mix-blend-overlay relative overflow-hidden">
+                    <!-- Accessible original text (visually replaced by hacker animation) -->
+                    <span class="sr-only">Timeless Vision</span>
+
+                    <!-- Hacker-style animated line -->
+                    <span id="hacker-line" class="font-mono text-5xl md:text-2xl lg:text-8xl leading-none" style="color:#7CFC00; mix-blend-mode:screen;"></span>
+                    <span id="hacker-cursor" class="font-mono text-6xl md:text-8xl lg:text-9xl leading-none" style="color:#32fc00; margin-left:6px;">.</span>
+                </h1>
+            </div>
+
+            <style>
+                /* Blinking block cursor for hacker effect */
+                #hacker-cursor { animation: blink 1s steps(1) infinite; }
+                @keyframes blink { 50% { opacity: 0; } }
+            </style>
+
+            <script>
+            (function(){
+                const el = document.getElementById('hacker-line');
+                const cursor = document.getElementById('hacker-cursor');
+                const targetText = 'Timeless Vision';
+                let pos = 0;
+                let scrambling = null;
+
+                // generate a random visible ascii character
+                function randChar() {
+                    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*()[]{}<>/\\|';
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }
+
+                // scramble effect for a single character slot, then reveal
+                function revealNext() {
+                    if (pos > targetText.length) {
+                        clearInterval(scrambling);
+                        cursor.style.opacity = '0';
+                        return;
+                    }
+
+                    const fixed = targetText.slice(0, pos);
+                    const targetChar = targetText.charAt(pos) || '';
+                    let ticks = 0;
+
+                    scrambling = setInterval(() => {
+                        // keep spaces instantaneous
+                        if (targetChar === ' ') {
+                            clearInterval(scrambling);
+                            el.textContent = fixed + ' ';
+                            pos++;
+                            setTimeout(revealNext, 40);
+                            return;
+                        }
+
+                        el.textContent = fixed + randChar();
+                        ticks++;
+                        if (ticks > 6) {
+                            clearInterval(scrambling);
+                            el.textContent = fixed + targetChar;
+                            pos++;
+                            setTimeout(revealNext, 80);
+                        }
+                    }, 30);
+                }
+
+                // start after a short delay to match surrounding animations
+                setTimeout(revealNext, 300);
+
+                // small subtle flicker loop to keep hacker vibe after full reveal
+                setTimeout(() => {
+                    let flicker = 0;
+                    const loop = setInterval(() => {
+                        if (flicker++ > 6) {
+                            clearInterval(loop);
+                            cursor.style.opacity = 0;
+                        } else {
+                            el.textContent = targetText.split('').map(c => (Math.random() > 0.92 ? randChar() : c)).join('');
+                        }
+                    }, 220);
+                }, 2000);
+            })();
+            </script>
+            <div class="animate-slide-up" style="animation-delay: 0.6s;">
+                <a href="#portfolio" class="cursor-hover group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white transition duration-300 ease-out border border-white/30 rounded-full">
+                    <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-brand-gold group-hover:translate-x-0 ease">
+                        <i class="ph ph-arrow-right text-xl text-black"></i>
+                    </span>
+                    <span class="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">View Gallery</span>
+                    <span class="relative invisible">View Gallery</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="border-b border-white/5 bg-brand-dark relative z-20 py-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="reveal">
+                <h3 class="font-serif text-3xl md:text-4xl text-white">12+</h3>
+                <p class="text-[10px] tracking-[0.2em] text-brand-gold mt-2">YEARS EXPERIENCE</p>
+            </div>
+            <div class="reveal">
+                <h3 class="font-serif text-3xl md:text-4xl text-white">500+</h3>
+                <p class="text-[10px] tracking-[0.2em] text-brand-gold mt-2">PROJECTS DONE</p>
+            </div>
+            <div class="reveal">
+                <h3 class="font-serif text-3xl md:text-4xl text-white">32</h3>
+                <p class="text-[10px] tracking-[0.2em] text-brand-gold mt-2">AWARDS WON</p>
+            </div>
+            <div class="reveal">
+                <h3 class="font-serif text-3xl md:text-4xl text-white">15</h3>
+                <p class="text-[10px] tracking-[0.2em] text-brand-gold mt-2">COUNTRIES VISITED</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Text Banner -->
+    <section class="py-20 overflow-hidden bg-black border-b border-white/5">
+        <div class="parallax-text-wrapper relative">
+            <h2 id="parallax-text-1" class="text-[10vw] font-serif italic text-white/10 whitespace-nowrap leading-none transition-transform duration-100 will-change-transform">
+                VISUAL POETRY &mdash; CAPTURING LIGHT &mdash; VISUAL POETRY
+            </h2>
+            <h2 id="parallax-text-2" class="text-[10vw] font-sans font-bold text-transparent whitespace-nowrap leading-none transition-transform duration-100 will-change-transform" style="-webkit-text-stroke: 1px rgba(255,255,255,0.2);">
+                NEW YORK &mdash; TOKYO &mdash; LONDON &mdash; PARIS
+            </h2>
+        </div>
+    </section>
+
+    <!-- Portfolio Section with Grid/List Toggle and EXIF -->
+    <section id="portfolio" class="py-24 px-6 md:px-12 max-w-[1600px] mx-auto min-h-screen">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+            <div>
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Selected Works</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-white mt-3">The Gallery</h2>
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:items-center gap-6 mt-8 md:mt-0">
+                <!-- View Toggles (NEW) -->
+                <div class="flex items-center gap-2 border border-white/10 rounded-lg p-1">
+                    <button onclick="setPortfolioView('grid')" id="btn-grid" class="p-2 text-brand-gold bg-white/10 rounded transition-colors cursor-hover"><i class="ph-fill ph-squares-four"></i></button>
+                    <button onclick="setPortfolioView('list')" id="btn-list" class="p-2 text-gray-500 hover:text-white rounded transition-colors cursor-hover"><i class="ph-fill ph-list-dashes"></i></button>
+                </div>
+
+                <!-- Toggle for Tech Specs -->
+                <div class="flex items-center gap-3 pl-4 border-l border-white/10">
+                    <span class="text-xs text-gray-500 tracking-widest">TECH SPECS</span>
+                    <button onclick="toggleExif()" id="exif-toggle" class="w-10 h-5 bg-gray-700 rounded-full relative transition-colors cursor-pointer">
+                        <div class="w-3 h-3 bg-white rounded-full absolute top-1 left-1 transition-transform"></div>
+                    </button>
+                </div>
+
+                <div class="flex space-x-8 hidden md:flex">
+                    <button onclick="filterGallery('all')" class="cursor-hover filter-btn text-white text-xs tracking-widest border-b border-white pb-1" data-filter="all">ALL</button>
+                    <button onclick="filterGallery('fashion')" class="cursor-hover filter-btn text-gray-500 hover:text-white text-xs tracking-widest border-b border-transparent hover:border-white/50 pb-1 transition-colors" data-filter="fashion">FASHION</button>
+                    <button onclick="filterGallery('bnw')" class="cursor-hover filter-btn text-gray-500 hover:text-white text-xs tracking-widest border-b border-transparent hover:border-white/50 pb-1 transition-colors" data-filter="bnw">B&W</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div id="gallery-grid-container" class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 gallery-grid-container transition-opacity duration-500">
+            <!-- Items (Existing) -->
+            <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="fashion">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(0)">
+                    <img src="jahid.png" class="w-full img-zoom develop-reveal" alt="Fashion Editorial">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Vogue Sepia</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">FASHION</p>
+                    </div>
+                </div>
+                <!-- EXIF Overlay with Histogram (NEW) -->
+                <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 400</span>
+                            <span>f/2.8</span>
+                            <span>1/500s</span>
+                        </div>
+                        <!-- Simulated Histogram Bars -->
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 20%"></div><div class="hist-bar" style="height: 40%"></div><div class="hist-bar" style="height: 70%"></div><div class="hist-bar" style="height: 50%"></div><div class="hist-bar" style="height: 90%"></div><div class="hist-bar" style="height: 30%"></div><div class="hist-bar" style="height: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="bnw">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(1)">
+                    <img src="https://cdn.pixabay.com/photo/2023/06/03/12/52/lantana-8037634_640.jpg" class="w-full img-zoom grayscale develop-reveal" alt="B&W Portrait">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Silent Gaze</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">B&W</p>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 1600</span>
+                            <span>f/1.4</span>
+                            <span>1/60s</span>
+                        </div>
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 10%"></div><div class="hist-bar" style="height: 30%"></div><div class="hist-bar" style="height: 80%"></div><div class="hist-bar" style="height: 40%"></div><div class="hist-bar" style="height: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="travel">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(2)">
+                    <img src="https://cdn.pixabay.com/photo/2016/11/15/07/37/water-lilies-1825477_640.jpg" class="w-full img-zoom develop-reveal" alt="Travel Landscape">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Highlands</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">TRAVEL</p>
+                    </div>
+                </div>
+                 <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 100</span>
+                            <span>f/8.0</span>
+                            <span>1/250s</span>
+                        </div>
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 50%"></div><div class="hist-bar" style="height: 60%"></div><div class="hist-bar" style="height: 40%"></div><div class="hist-bar" style="height: 80%"></div><div class="hist-bar" style="height: 30%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="fashion">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(3)">
+                    <img src="jahid2.jpg" class="w-full img-zoom develop-reveal" alt="Street Fashion">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Urban Chic</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">FASHION</p>
+                    </div>
+                </div>
+                 <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 200</span>
+                            <span>f/4.0</span>
+                            <span>1/125s</span>
+                        </div>
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 30%"></div><div class="hist-bar" style="height: 80%"></div><div class="hist-bar" style="height: 60%"></div><div class="hist-bar" style="height: 40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="travel">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(4)">
+                    <img src="jahid3.jpg" class="w-full img-zoom develop-reveal" alt="Switzerland">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Alpine Mist</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">TRAVEL</p>
+                    </div>
+                </div>
+                 <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 50</span>
+                            <span>f/11</span>
+                            <span>1/60s</span>
+                        </div>
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 90%"></div><div class="hist-bar" style="height: 70%"></div><div class="hist-bar" style="height: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item tilt-card relative group cursor-pointer mb-8 break-inside-avoid" data-category="bnw">
+                <button onclick="toggleFavorite(this)" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white transition-colors group/btn">
+                    <i class="ph-fill ph-heart text-white group-hover/btn:text-red-500 text-xl fav-heart"></i>
+                </button>
+                <div class="img-zoom-container rounded-sm overflow-hidden" onclick="openLightbox(5)">
+                    <img src="https://cdn.pixabay.com/photo/2018/03/07/00/08/flower-3204966_640.jpg" class="w-full img-zoom grayscale develop-reveal" alt="B&W Hands">
+                </div>
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none normal-overlay">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="font-serif text-2xl italic text-white">Connection</p>
+                        <p class="text-[10px] tracking-widest text-brand-gold mt-1">B&W</p>
+                    </div>
+                </div>
+                 <div class="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-md p-4 border-t border-brand-gold/30 exif-overlay pointer-events-none">
+                    <div class="flex justify-between items-end">
+                        <div class="flex flex-col gap-1 text-brand-gold font-mono text-[10px]">
+                            <span>ISO 3200</span>
+                            <span>f/2.0</span>
+                            <span>1/500s</span>
+                        </div>
+                        <div class="flex items-end h-8 gap-[1px]">
+                            <div class="hist-bar" style="height: 20%"></div><div class="hist-bar" style="height: 40%"></div><div class="hist-bar" style="height: 60%"></div><div class="hist-bar" style="height: 30%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- List View (NEW) -->
+        <div id="gallery-list-container" class="hidden space-y-2 mt-8">
+            <div class="text-xs text-gray-500 tracking-widest border-b border-white/10 pb-4 mb-4 grid grid-cols-12">
+                <div class="col-span-1">ID</div>
+                <div class="col-span-5">PROJECT NAME</div>
+                <div class="col-span-3">CATEGORY</div>
+                <div class="col-span-2">YEAR</div>
+                <div class="col-span-1 text-right">LINK</div>
+            </div>
+            
+            <!-- Rows generated dynamically or static -->
+            <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(0)">
+                <div class="col-span-1 font-mono text-xs">01</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Vogue Sepia</div>
+                <div class="col-span-3 text-xs tracking-widest">FASHION</div>
+                <div class="col-span-2 text-xs tracking-widest">2024</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                
+                <!-- Floating Thumbnail -->
+                <img src="image/jahid.png" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+
+            <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(1)">
+                <div class="col-span-1 font-mono text-xs">02</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Silent Gaze</div>
+                <div class="col-span-3 text-xs tracking-widest">B&W</div>
+                <div class="col-span-2 text-xs tracking-widest">2023</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                <img src="https://cdn.pixabay.com/photo/2023/06/03/12/52/lantana-8037634_640.jpg" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+
+            <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(2)">
+                <div class="col-span-1 font-mono text-xs">03</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Scottish Highlands</div>
+                <div class="col-span-3 text-xs tracking-widest">TRAVEL</div>
+                <div class="col-span-2 text-xs tracking-widest">2023</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                <img src="https://cdn.pixabay.com/photo/2016/11/15/07/37/water-lilies-1825477_640.jpg" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+             <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(3)">
+                <div class="col-span-1 font-mono text-xs">04</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Urban Chic</div>
+                <div class="col-span-3 text-xs tracking-widest">FASHION</div>
+                <div class="col-span-2 text-xs tracking-widest">2024</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                <img src="image/jahid2.jpg" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+             <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(4)">
+                <div class="col-span-1 font-mono text-xs">05</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Alpine Collection</div>
+                <div class="col-span-3 text-xs tracking-widest">TRAVEL</div>
+                <div class="col-span-2 text-xs tracking-widest">2022</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                <img src="image/jahid3.jpg" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+             <div class="list-row group relative border-b border-white/5 hover:border-brand-gold/50 transition-colors py-6 grid grid-cols-12 items-center text-sm text-gray-400 hover:text-white cursor-pointer" onclick="openLightbox(5)">
+                <div class="col-span-1 font-mono text-xs">06</div>
+                <div class="col-span-5 font-serif text-xl italic text-white">Connection Series</div>
+                <div class="col-span-3 text-xs tracking-widest">B&W</div>
+                <div class="col-span-2 text-xs tracking-widest">2023</div>
+                <div class="col-span-1 text-right"><i class="ph ph-arrow-up-right"></i></div>
+                <img src="https://cdn.pixabay.com/photo/2018/03/07/00/08/flower-3204966_640.jpg" class="list-thumb absolute left-1/2 top-1/2 w-64 h-40 object-cover z-20 border border-brand-gold">
+            </div>
+        </div>
+        
+        <div class="text-center mt-12 reveal">
+            <div class="text-center mt-12 reveal">
+                <button id="load-more-btn" class="cursor-hover text-xs tracking-[0.2em] text-gray-400 hover:text-white border-b border-transparent hover:border-white transition-all pb-1">
+                    LOAD MORE WORKS
+                </button>
+
+                <!-- Toast Notification -->
+                <div id="popup-toast" role="status" aria-live="polite" class="fixed bottom-8 right-8 z-[10000] hidden opacity-0 transform translate-y-4 transition-all duration-300">
+                    <div class="max-w-xs bg-[#111111] border border-white/10 text-white px-4 py-3 rounded-lg shadow-2xl flex items-start gap-3">
+                        <div class="flex-shrink-0 text-brand-gold">
+                            <i class="ph ph-check-circle text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium" id="toast-title">Works Loaded</div>
+                            <div class="text-xs text-gray-400" id="toast-body">New items have been added to the gallery.</div>
+                        </div>
+                        <button id="toast-close" class="ml-3 text-gray-400 hover:text-white"><i class="ph ph-x"></i></button>
+                    </div>
+                </div>
+
+                <script>
+                    (function(){
+                        const btn = document.getElementById('load-more-btn');
+                        const toast = document.getElementById('popup-toast');
+                        const close = document.getElementById('toast-close');
+                        let toastTimer = null;
+
+                        function showPopupNotification(title, body, timeout = 4000) {
+                            document.getElementById('toast-title').innerText = title;
+                            document.getElementById('toast-body').innerText = body;
+
+                            toast.classList.remove('hidden');
+                            // force reflow for transition
+                            void toast.offsetWidth;
+                            toast.classList.remove('translate-y-4');
+                            toast.classList.add('opacity-100');
+
+                            if (toastTimer) clearTimeout(toastTimer);
+                            toastTimer = setTimeout(hidePopupNotification, timeout);
+                        }
+
+                        function hidePopupNotification() {
+                            toast.classList.add('opacity-0');
+                            toast.classList.add('translate-y-4');
+                            // wait for transition then hide
+                            setTimeout(() => toast.classList.add('hidden'), 300);
+                        }
+
+                        btn.addEventListener('click', (e) => {
+                            // Example behaviour: show notification (replace with real load logic)
+                            showPopupNotification('No more works❗', 'No more items appended to the gallery.');
+                            // You can integrate actual loading logic here (fetch / append DOM)
+                        });
+
+                        close.addEventListener('click', hidePopupNotification);
+
+                        // allow ESC to close toast
+                        document.addEventListener('keydown', (ev) => {
+                            if (ev.key === 'Escape' && !toast.classList.contains('hidden')) hidePopupNotification();
+                        });
+                    })();
+                </script>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Archive (Contact Sheet) -->
+    <section id="archive" class="py-24 px-4 bg-[#050505] border-b border-white/5">
+        <div class="max-w-[1800px] mx-auto">
+            <div class="flex justify-between items-end mb-12 px-4 reveal">
+                <div>
+                    <span class="text-brand-gold text-xs tracking-widest uppercase">Behind the Scenes</span>
+                    <h2 class="font-serif text-4xl text-white mt-3">The create Sheet</h2>
+                </div>
+                <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover text-[10px] text-white border-b border-white/50 pb-1 hover:text-brand-gold hover:border-brand-gold">DOWNLOAD PDF</button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-1 p-4 bg-black border-4 border-gray-900 shadow-2xl reveal">
+                <!-- Strip 1 -->
+                <div class="contact-sheet-item aspect-[4/5] relative bg-gray-900 group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 filter grayscale">
+                    <div class="loupe" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200');"></div>
+                    <span class="absolute bottom-2 left-2 text-[8px] text-white font-mono">IMG_001.RAW</span>
+                </div>
+                <div class="contact-sheet-item aspect-[4/5] relative bg-gray-900 group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 filter grayscale">
+                    <div class="loupe" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200');"></div>
+                    <span class="absolute bottom-2 left-2 text-[8px] text-white font-mono">IMG_002.RAW</span>
+                </div>
+                <div class="contact-sheet-item aspect-[4/5] relative bg-gray-900 group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=600" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 filter grayscale">
+                    <div class="loupe" style="background-image: url('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1200');"></div>
+                    <span class="absolute bottom-2 left-2 text-[8px] text-white font-mono">IMG_003.RAW</span>
+                </div>
+                <div class="contact-sheet-item aspect-[4/5] relative bg-gray-900 group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=600" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 filter grayscale">
+                    <div class="loupe" style="background-image: url('https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=1200');"></div>
+                    <span class="absolute bottom-2 left-2 text-[8px] text-white font-mono">IMG_004.RAW</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masterclass Workshops -->
+    <section id="workshops" class="py-24 bg-[#080808]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Education</span>
+                <h2 class="font-serif text-4xl text-white mt-3">Masterclasses</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Ticket 1 -->
+                <div class="bg-brand-surface border border-white/10 p-8 flex flex-col md:flex-row gap-6 hover:border-brand-gold/50 transition-colors group reveal relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-gold text-black text-[10px] font-bold px-3 py-1">SELLING FAST</div>
+                    <div class="flex-1">
+                        <span class="text-xs text-gray-500 tracking-widest block mb-2">ONLINE & IN-PERSON</span>
+                        <h3 class="font-serif text-3xl text-white italic mb-4">Mastering Natural Light</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">Learn to manipulate available light to create dramatic, painterly portraits without expensive strobes.</p>
+                        <div class="flex gap-4 text-xs text-white/70">
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-calendar-blank text-brand-gold"></i> Oct 15-17</span>
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-users text-brand-gold"></i> 12 Spots</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between items-end border-l border-white/10 pl-6">
+                        <span class="text-2xl font-serif text-white">$850</span>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover w-full md:w-auto bg-white text-black px-6 py-2 text-xs tracking-widest font-bold hover:bg-brand-gold transition-colors">ENROLL</button>
+                    </div>
+                </div>
+
+                <!-- Ticket 2 -->
+                <div class="bg-brand-surface border border-white/10 p-8 flex flex-col md:flex-row gap-6 hover:border-brand-gold/50 transition-colors group reveal">
+                    <div class="flex-1">
+                        <span class="text-xs text-gray-500 tracking-widest block mb-2">ONLINE COURSE</span>
+                        <h3 class="font-serif text-3xl text-white italic mb-4">Editorial Retouching</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-6">My complete workflow in Capture One and Photoshop. From raw processing to high-end skin work.</p>
+                        <div class="flex gap-4 text-xs text-white/70">
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-play-circle text-brand-gold"></i> 14 Modules</span>
+                            <span class="flex items-center gap-1"><i class="ph-fill ph-infinity text-brand-gold"></i> Lifetime Access</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between items-end border-l border-white/10 pl-6">
+                        <span class="text-2xl font-serif text-white">$299</span>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover w-full md:w-auto border border-white text-white px-6 py-2 text-xs tracking-widest hover:bg-white hover:text-black transition-colors">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- "The Drop" (Print Countdown) -->
+    <section id="print-drop" class="py-24 px-6 bg-[#0a0a0a] border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2 relative reveal">
+                <div class="aspect-[4/5] overflow-hidden relative group shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=1200" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    <div class="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-3 py-1 tracking-widest animate-pulse">DROPPING SOON</div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 reveal">
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Limited Release</span>
+                <h2 class="font-serif text-5xl text-white mt-4 mb-6">"Midnight in Shibuya"</h2>
+                <p class="text-gray-400 leading-relaxed mb-8">A special archival pigment print run of 10. Signed and numbered. This image captures the fleeting silence amidst Tokyo's chaotic energy. Once they are gone, they are gone forever.</p>
+                
+                <div class="flex gap-8 mb-10 border-y border-white/10 py-6">
+                    <div class="text-center">
+                        <span class="block text-3xl text-white font-serif" id="d-days">02</span>
+                        <span class="text-[10px] text-gray-600 tracking-widest">DAYS</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-3xl text-white font-serif" id="d-hours">14</span>
+                        <span class="text-[10px] text-gray-600 tracking-widest">HOURS</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-3xl text-white font-serif" id="d-mins">35</span>
+                        <span class="text-[10px] text-gray-600 tracking-widest">MINS</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-3xl text-white font-serif" id="d-secs">12</span>
+                        <span class="text-[10px] text-gray-600 tracking-widest">SECS</span>
+                    </div>
+                </div>
+                
+                <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover w-full bg-white text-black py-4 text-xs tracking-widest font-bold hover:bg-brand-gold transition-colors">JOIN WAITLIST</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gear Locker Section -->
+    <section id="gear" class="py-24 bg-brand-dark px-6 border-b border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                <div>
+                    <span class="text-brand-gold text-xs tracking-widest uppercase">The Toolkit</span>
+                    <h2 class="font-serif text-4xl text-white mt-3">The Gear Locker</h2>
+                </div>
+                <p class="text-xs text-gray-500 tracking-widest max-w-sm mt-4 md:mt-0">
+                    Industry-standard equipment ensures reliability and the highest fidelity for every frame captured.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10">
+                <!-- Gear Items -->
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-camera text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">Sony A7R V</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Main Body</p>
+                </div>
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-camera text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">Leica Q2</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Secondary</p>
+                </div>
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-aperture text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">85mm f/1.2 GM</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Portrait Lens</p>
+                </div>
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-aperture text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">35mm f/1.4 GM</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Context Lens</p>
+                </div>
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-lightning text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">Profoto B10X</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Strobe Lighting</p>
+                </div>
+                <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-airplane-tilt text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">DJI Mavic 3</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Aerial Drone</p>
+                </div>
+                 <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-desktop text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">Mac Studio</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Workstation</p>
+                </div>
+                 <div class="bg-brand-surface p-8 text-center group hover:bg-[#1a1a1a] transition-colors reveal">
+                    <i class="ph ph-film-strip text-4xl text-gray-600 group-hover:text-brand-gold mb-4 transition-colors"></i>
+                    <h3 class="text-white font-serif text-lg">Capture One</h3>
+                    <p class="text-[10px] text-gray-500 tracking-widest mt-2 uppercase">Tethering</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Lens Simulator -->
+    <section class="py-24 px-6 bg-black border-b border-white/5">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12 reveal">
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Educational</span>
+                <h2 class="font-serif text-4xl text-white mt-3">Visualizing Focal Lengths</h2>
+                <p class="text-gray-500 text-xs tracking-widest mt-4 max-w-lg mx-auto">
+                    Understand how different lenses affect the look and feel of a portrait. Select a focal length below.
+                </p>
+            </div>
+
+            <div class="bg-[#0a0a0a] border border-white/10 rounded-lg p-2 md:p-4 shadow-2xl reveal">
+                <div class="relative aspect-[16/9] overflow-hidden rounded bg-gray-900 mb-6">
+                    <img id="lens-img" src="https://cdn.pixabay.com/photo/2016/02/17/19/08/lotus-1205631_640.jpg" class="w-full h-full object-cover transition-all duration-700 animate-fade-in develop-reveal">
+                    <div class="absolute bottom-6 left-6 bg-black/70 backdrop-blur-sm px-4 py-2 rounded text-white text-sm tracking-widest border border-white/10">
+                        <span id="lens-label">35MM</span> &mdash; <span id="lens-desc" class="text-brand-gold">Environmental Context</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <button onclick="changeLens('35mm')" class="lens-btn active cursor-hover px-6 py-3 border border-white/20 rounded-full text-xs tracking-widest text-white hover:bg-white hover:text-black transition-all" data-lens="35mm">35MM</button>
+                    <button onclick="changeLens('50mm')" class="lens-btn cursor-hover px-6 py-3 border border-white/20 rounded-full text-xs tracking-widest text-white hover:bg-white hover:text-black transition-all" data-lens="50mm">50MM</button>
+                    <button onclick="changeLens('85mm')" class="lens-btn cursor-hover px-6 py-3 border border-white/20 rounded-full text-xs tracking-widest text-white hover:bg-white hover:text-black transition-all" data-lens="85mm">85MM</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Print Shop Section -->
+    <section id="shop" class="py-24 bg-brand-surface overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 mb-12 reveal flex justify-between items-end">
+            <div>
+                 <span class="text-brand-gold text-xs tracking-widest uppercase">Store</span>
+                 <h2 class="font-serif text-4xl text-white mt-3">Limited Edition Prints</h2>
+            </div>
+             <div class="hidden md:flex gap-4">
+                 <button onclick="scrollShop('left')" class="cursor-hover w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors"><i class="ph ph-arrow-left"></i></button>
+                 <button onclick="scrollShop('right')" class="cursor-hover w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors"><i class="ph ph-arrow-right"></i></button>
+             </div>
+        </div>
+
+        <div id="shop-scroll" class="flex overflow-x-auto space-x-8 px-6 pb-12 snap-x hide-scrollbar">
+            <!-- Shop Item 1 -->
+            <div class="min-w-[300px] md:min-w-[400px] snap-center group">
+                <div class="relative p-4 bg-white shadow-2xl">
+                    <div class="frame border-[20px] border-[#1a1a1a]">
+                        <img src="https://cdn.pixabay.com/photo/2025/09/14/19/45/squirrel-9834881_640.jpg" class="w-full h-[400px] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                         <h3 class="font-serif text-xl text-white italic">Highland Mist</h3>
+                         <p class="text-xs text-gray-500 mt-1">EDITION OF 50</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-brand-gold text-lg font-serif">$250</div>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover text-[10px] text-white border-b border-white pb-1 hover:text-brand-gold hover:border-brand-gold mt-2">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Shop Item 2 -->
+             <div class="min-w-[300px] md:min-w-[400px] snap-center group">
+                <div class="relative p-4 bg-white shadow-2xl">
+                     <div class="frame border-[20px] border-[#1a1a1a]">
+                        <img src="https://cdn.pixabay.com/photo/2025/11/18/18/36/bird-9964066_640.jpg" class="w-full h-[400px] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                     </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                         <h3 class="font-serif text-xl text-white italic">Solitude</h3>
+                         <p class="text-xs text-gray-500 mt-1">EDITION OF 25</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-brand-gold text-lg font-serif">$350</div>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover text-[10px] text-white border-b border-white pb-1 hover:text-brand-gold hover:border-brand-gold mt-2">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Shop Item 3 -->
+             <div class="min-w-[300px] md:min-w-[400px] snap-center group">
+                <div class="relative p-4 bg-white shadow-2xl">
+                     <div class="frame border-[20px] border-[#1a1a1a]">
+                        <img src="https://cdn.pixabay.com/photo/2025/08/03/15/10/cat-9752539_640.jpg" class="w-full h-[400px] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                     </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                         <h3 class="font-serif text-xl text-white italic">Alpine Peaks</h3>
+                         <p class="text-xs text-gray-500 mt-1">EDITION OF 50</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-brand-gold text-lg font-serif">$250</div>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover text-[10px] text-white border-b border-white pb-1 hover:text-brand-gold hover:border-brand-gold mt-2">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Shop Item 4 -->
+             <div class="min-w-[300px] md:min-w-[400px] snap-center group">
+                <div class="relative p-4 bg-white shadow-2xl">
+                     <div class="frame border-[20px] border-[#1a1a1a]">
+                        <img src="https://cdn.pixabay.com/photo/2025/11/27/21/04/christmas-9981545_640.jpg" class="w-full h-[400px] object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500">
+                     </div>
+                </div>
+                <div class="mt-6 flex justify-between items-start">
+                    <div>
+                         <h3 class="font-serif text-xl text-white italic">City Lights</h3>
+                         <p class="text-xs text-gray-500 mt-1">EDITION OF 30</p>
+                </div>
+                    <div class="text-right">
+                        <div class="text-brand-gold text-lg font-serif">$300</div>
+                        <button type="button" onclick="window.open('https://jahidads.github.io/Upgrade-Progress/', '_blank', 'noopener,noreferrer')" class="cursor-hover text-[10px] text-white border-b border-white pb-1 hover:text-brand-gold hover:border-brand-gold mt-2">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Motion / Cinematography Section with CRT Effect -->
+    <section class="relative h-[600px] w-full overflow-hidden flex items-center justify-center bg-black">
+        <div class="absolute inset-0 z-0 opacity-60">
+            <img src="https://cdn.pixabay.com/animation/2024/12/14/18/51/18-51-23-886_512.gif" class="w-full h-full object-cover">
+        </div>
+        <!-- Scanlines CRT Effect -->
+        <div class="scanlines"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/40 z-10"></div>
+        
+        <div class="relative z-20 text-center reveal">
+            <span class="text-brand-gold text-xs tracking-widest uppercase">Motion</span>
+            <h2 class="font-serif text-5xl md:text-7xl text-white mt-4 mb-8 text-shadow-glow">Cinematography</h2>
+            <button type="button" onclick="window.open('https://youtube.com/@islamic_bloger', '_blank', 'noopener,noreferrer')" class="cursor-hover group flex items-center gap-4 mx-auto text-white hover:text-brand-gold transition-colors">
+                <div class="w-16 h-16 rounded-full border border-white/30 group-hover:border-brand-gold flex items-center justify-center backdrop-blur-sm transition-all duration-300">
+                    <i class="ph-fill ph-play text-2xl"></i>
+                </div>
+                <span class="text-sm tracking-widest">WATCH REEL</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Before & After Retouching Section -->
+    <section class="py-24 bg-brand-surface overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Post-Processing</span>
+                <h2 class="font-serif text-4xl text-white mt-3 mb-6">The Art of Retouching</h2>
+                <p class="text-gray-400 leading-relaxed font-light mb-8">
+                    A great photo is made twice: once in the camera and once in the edit. Move the slider to see how I transform raw captures into cinematic masterpieces using advanced color grading and skin retouching techniques.
+                </p>
+                <div class="flex space-x-8 text-sm">
+                    <div>
+                        <span class="block text-white font-serif italic text-xl">Raw</span>
+                        <span class="text-xs text-gray-500 tracking-widest">FLAT PROFILE</span>
+                    </div>
+                    <div class="h-10 w-px bg-white/10"></div>
+                    <div>
+                        <span class="block text-brand-gold font-serif italic text-xl">Edit</span>
+                        <span class="text-xs text-gray-500 tracking-widest">COLOR GRADED</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Component -->
+            <div class="reveal relative w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-2xl cursor-ew-resize group">
+                <div class="ba-slider">
+                    <!-- Modified Image (Background) -->
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop" class="ba-image-img" alt="After">
+                    
+                    <!-- Original Image (Foreground, clipped) -->
+                    <div class="resize" id="ba-resize">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop" class="ba-image-img grayscale contrast-50 brightness-75" alt="Before">
+                    </div>
+                    
+                    <!-- Handle -->
+                    <span class="handle" id="ba-handle">
+                        <i class="ph-bold ph-arrows-left-right text-black"></i>
+                    </span>
+                    
+                    <!-- Input Range -->
+                    <input type="range" min="0" max="100" value="50" class="ba-range" oninput="updateCompare(this.value)">
+                </div>
+                <div class="absolute top-4 left-4 bg-black/50 px-3 py-1 rounded text-[10px] tracking-widest text-white">RAW</div>
+                <div class="absolute top-4 right-4 bg-brand-gold px-3 py-1 rounded text-[10px] tracking-widest text-black font-bold">EDIT</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Booking Section with Map -->
+    <section id="contact" class="py-24 px-6 relative overflow-hidden">
+        <!-- Background Map Visualization -->
+         <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full object-cover" fill="currentColor" viewBox="0 0 1000 500">
+                <path d="M150,200 Q200,100 300,200 T500,200 T700,200 T900,200" stroke="white" stroke-width="2" fill="none"/>
+                <circle cx="280" cy="180" r="4" fill="white" class="beacon"/>
+                <circle cx="480" cy="160" r="4" fill="white" class="beacon" style="animation-delay: 0.5s"/>
+                <circle cx="500" cy="170" r="4" fill="white" class="beacon" style="animation-delay: 0.7s"/>
+                <circle cx="850" cy="190" r="4" fill="white" class="beacon" style="animation-delay: 1.2s"/>
+            </svg>
+        </div>
+
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="text-center reveal mb-16">
+                <span class="text-brand-gold text-xs tracking-widest uppercase">Global Availability</span>
+                <h2 class="font-serif text-5xl text-white mt-3">Contact With Me</h2>
+                <div class="flex justify-center gap-6 mt-4 text-xs text-gray-500 tracking-widest">
+                    <span>NY</span>
+                    <span>LDN</span>
+                    <span>PAR</span>
+                    <span>TYO</span>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <!-- Booking Calendar Widget -->
+                <div id="booking-calendar" class="reveal">
+                    <h3 class="font-serif text-2xl text-white mb-6 italic">Select a Date & Time</h3>
+
+                    <div class="bg-brand-surface border border-white/5 p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                            <div class="flex items-center gap-3">
+                                <button id="prev-month" class="cursor-hover text-gray-400 hover:text-white p-2 rounded" aria-label="Previous month"><i class="ph ph-caret-left"></i></button>
+                                <h4 id="month-label" class="text-white text-lg font-serif">December 2025</h4>
+                                <button id="next-month" class="cursor-hover text-gray-400 hover:text-white p-2 rounded" aria-label="Next month"><i class="ph ph-caret-right"></i></button>
+                            </div>
+
+                            <div class="flex items-center gap-3 text-xs text-gray-400">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-brand-gold inline-block"></span>
+                                    <span>Available</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-gray-700 inline-block"></span>
+                                    <span>Unavailable</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-white/10 inline-block"></span>
+                                    <span>Disabled</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-7 gap-2 text-center text-xs text-gray-500 mb-2">
+                            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                        </div>
+
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-2 text-center text-sm text-gray-400" role="grid" aria-label="Booking calendar">
+                            <!-- Empty placeholders for alignment -->
+                            <span></span><span></span>
+
+                            <!-- Days (data-date used for JS) -->
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-01" role="gridcell">1</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-02">2</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-03">3</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-04" aria-disabled="true">4</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-05">5</button>
+
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-06">6</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-07">7</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-08">8</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover bg-brand-gold text-black selected" data-date="2025-12-09">9</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-10">10</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-11" aria-disabled="true">11</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-12">12</button>
+
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-13" aria-disabled="true">13</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-14">14</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-15">15</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-16" aria-disabled="true">16</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-17">17</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-18">18</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-19">19</button>
+
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-20">20</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-21" aria-disabled="true">21</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-22">22</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-23">23</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-24">24</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-25" aria-disabled="true">25</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-26">26</button>
+
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-27">27</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-28">28</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-29">29</button>
+                            <button class="calendar-day p-2 text-gray-700 disabled" data-date="2025-12-30" aria-disabled="true">30</button>
+                            <button class="calendar-day p-2 hover:bg-brand-gold hover:text-black rounded-full cursor-hover" data-date="2025-12-31">31</button>
+                        </div>
+
+                        <!-- Time slots & timezone selector -->
+                        <div id="time-slot-panel" class="mt-6 p-4 bg-[#0b0b0b] border border-white/5 rounded hidden" aria-hidden="true">
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <div class="text-xs text-gray-400">Selected</div>
+                                    <div id="selected-display" class="text-white font-mono text-sm">Dec 9, 2025 — 10:00 AM (NY)</div>
+                                </div>
+
+                                <div class="flex items-center gap-3">
+                                    <label class="text-xs text-gray-400">Timezone</label>
+                                    <select id="tz-select" class="bg-transparent border border-white/10 text-white text-sm px-3 py-2 rounded cursor-hover">
+                                        <option value="America/New_York">NY (EST)</option>
+                                        <option value="Europe/London">LDN (GMT)</option>
+                                        <option value="Asia/Tokyo">TYO (JST)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="slot-list" role="list" aria-label="Available time slots">
+                                <button class="slot-btn cursor-hover bg-white/5 text-white py-2 rounded text-sm" data-time="09:00">09:00</button>
+                                <button class="slot-btn cursor-hover bg-white/5 text-white py-2 rounded text-sm" data-time="11:00">11:00</button>
+                                <button class="slot-btn cursor-hover bg-white/5 text-white py-2 rounded text-sm" data-time="14:00">14:00</button>
+                                <button class="slot-btn cursor-hover bg-white/5 text-white py-2 rounded text-sm" data-time="16:00">16:00</button>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <button id="clear-selection" class="cursor-hover text-xs text-gray-400 hover:text-white border border-white/5 px-3 py-2 rounded">Clear</button>
+                                <button id="confirm-datetime" class="cursor-hover ml-auto bg-brand-gold text-black text-xs tracking-widest px-4 py-2 rounded">Confirm Date & Time</button>
+                            </div>
+
+                            <div id="calendar-feedback" class="mt-3 text-xs text-gray-400 hidden"></div>
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t border-white/10 text-xs text-gray-500 flex flex-col md:flex-row justify-between gap-3">
+                            <span>Selected: <span id="selected-summary" class="text-white">Dec 9, 2025</span></span>
+                            <span id="availability-status" class="text-brand-gold">Available</span>
+                        </div>
+                    </div>
+
+                    <script>
+                        (function(){
+                            const calendar = document.getElementById('booking-calendar');
+                            const days = calendar.querySelectorAll('.calendar-day');
+                            const slotPanel = document.getElementById('time-slot-panel');
+                            const slotList = document.getElementById('slot-list');
+                            const selectedDisplay = document.getElementById('selected-display');
+                            const selectedSummary = document.getElementById('selected-summary');
+                            const confirmBtn = document.getElementById('confirm-datetime');
+                            const clearBtn = document.getElementById('clear-selection');
+                            const tzSelect = document.getElementById('tz-select');
+                            const feedback = document.getElementById('calendar-feedback');
+
+                            let selectedDate = null;
+                            let selectedTime = null;
+                            let selectedTZ = tzSelect.value;
+
+                            function isoToReadable(iso, tzLabel){
+                                // simple human-friendly representation
+                                const d = new Date(iso + 'T00:00:00');
+                                const opts = { month: 'short', day: 'numeric', year: 'numeric', timeZone: selectedTZ };
+                                return d.toLocaleDateString('en-US', opts) + (selectedTime ? ` — ${selectedTime}` : '') + ` (${tzLabel})`;
+                            }
+
+                            // Day selection
+                            days.forEach(btn => {
+                                if (btn.classList.contains('disabled')) return;
+                                btn.addEventListener('click', () => {
+                                    // toggle selected state visually
+                                    days.forEach(d => d.classList.remove('selected', 'bg-brand-gold', 'text-black'));
+                                    btn.classList.add('selected', 'bg-brand-gold', 'text-black');
+
+                                    selectedDate = btn.dataset.date;
+                                    selectedTime = null;
+                                    slotPanel.classList.remove('hidden');
+                                    slotPanel.setAttribute('aria-hidden', 'false');
+
+                                    selectedSummary.innerText = new Date(selectedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                                    selectedDisplay.innerText = isoToReadable(selectedDate, tzSelect.options[tzSelect.selectedIndex].text);
+                                    feedback.classList.add('hidden');
+                                });
+                            });
+
+                            // Time slot selection
+                            slotList.addEventListener('click', (e) => {
+                                const slot = e.target.closest('.slot-btn');
+                                if (!slot || !selectedDate) return;
+                                // mark active
+                                slotList.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('bg-brand-gold', 'text-black'));
+                                slot.classList.add('bg-brand-gold', 'text-black');
+                                selectedTime = slot.dataset.time;
+                                selectedDisplay.innerText = `${new Date(selectedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} — ${selectedTime} (${tzSelect.options[tzSelect.selectedIndex].text})`;
+                            });
+
+                            // Timezone change
+                            tzSelect.addEventListener('change', (e) => {
+                                selectedTZ = e.target.value;
+                                if (selectedDate) {
+                                    selectedDisplay.innerText = isoToReadable(selectedDate, tzSelect.options[tzSelect.selectedIndex].text);
+                                }
+                            });
+
+                            // Clear selection
+                            clearBtn.addEventListener('click', () => {
+                                days.forEach(d => d.classList.remove('selected', 'bg-brand-gold', 'text-black'));
+                                slotPanel.classList.add('hidden');
+                                slotPanel.setAttribute('aria-hidden', 'true');
+                                slotList.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('bg-brand-gold', 'text-black'));
+                                selectedDate = null;
+                                selectedTime = null;
+                                selectedSummary.innerText = '—';
+                                selectedDisplay.innerText = '';
+                                feedback.classList.add('hidden');
+                            });
+
+                            // Confirm selection: populate hidden input in nearby contact form
+                            confirmBtn.addEventListener('click', () => {
+                                if (!selectedDate || !selectedTime) {
+                                    feedback.innerText = 'Please choose a date and time slot before confirming.';
+                                    feedback.classList.remove('hidden');
+                                    return;
+                                }
+
+                                const formatted = `${selectedDate} ${selectedTime} (${tzSelect.options[tzSelect.selectedIndex].text})`;
+
+                                // Find the contact form in the same section
+                                const contactForm = document.querySelector('#contact form');
+                                if (!contactForm) {
+                                    feedback.innerText = 'Contact form not found.';
+                                    feedback.classList.remove('hidden');
+                                    return;
+                                }
+
+                                // Create or update hidden input
+                                let hidden = contactForm.querySelector('input[name="booking_datetime"]');
+                                if (!hidden) {
+                                    hidden = document.createElement('input');
+                                    hidden.type = 'hidden';
+                                    hidden.name = 'booking_datetime';
+                                    hidden.id = 'booking-datetime';
+                                    contactForm.appendChild(hidden);
+                                }
+                                hidden.value = formatted;
+
+                                // Visual feedback
+                                feedback.innerText = `Confirmed: ${formatted} — it will be included with your booking request.`;
+                                feedback.classList.remove('hidden');
+
+                                // focus message and scroll to form's submit button
+                                contactForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                const submit = contactForm.querySelector('button[type="submit"]');
+                                if (submit) submit.focus({ preventScroll: true });
+                            });
+
+                            // Minimal prev/next month visual behavior (placeholder - extend as needed)
+                            document.getElementById('prev-month').addEventListener('click', () => {
+                                feedback.innerText = 'Month navigation is demo-only in this build.';
+                                feedback.classList.remove('hidden');
+                                setTimeout(()=> feedback.classList.add('hidden'), 2000);
+                            });
+                            document.getElementById('next-month').addEventListener('click', () => {
+                                feedback.innerText = 'Month navigation is demo-only in this build.';
+                                feedback.classList.remove('hidden');
+                                setTimeout(()=> feedback.classList.add('hidden'), 2000);
+                            });
+
+                            // keyboard accessibility: Enter confirms selected slot when focused on a slot
+                            slotList.addEventListener('keydown', (ev) => {
+                                if (ev.key === 'Enter') {
+                                    const focused = document.activeElement;
+                                    if (focused && focused.classList.contains('slot-btn')) {
+                                        focused.click();
+                                        confirmBtn.click();
+                                    }
+                                }
+                            });
+                        })();
+                    </script>
+                </div>
+
+                <!-- Contact Form -->
+                <form onsubmit="handleSubmit(event)" class="space-y-6 text-left reveal">
+                    <h3 class="font-serif text-2xl text-white mb-6 italic">Send a Message</h3>
+
+                    <div class="relative group">
+                        <input type="text" required placeholder=" " class="peer cursor-hover w-full bg-transparent border-b border-gray-700 py-4 text-white outline-none focus:border-brand-gold transition-colors" />
+                        <label class="absolute left-0 -top-4 text-gray-500 text-xs transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-brand-gold peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 cursor-text">Name</label>
+                    </div>
+                    
+                    <div class="relative group">
+                        <input type="email" required placeholder=" " class="peer cursor-hover w-full bg-transparent border-b border-gray-700 py-4 text-white outline-none focus:border-brand-gold transition-colors" />
+                        <label class="absolute left-0 -top-4 text-gray-500 text-xs transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-brand-gold peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 cursor-text">Email</label>
+                    </div>
+
+                    <div class="relative group">
+                        <textarea rows="3" required placeholder=" " class="peer cursor-hover w-full bg-transparent border-b border-gray-700 py-4 text-white outline-none focus:border-brand-gold transition-colors"></textarea>
+                        <label class="absolute left-0 -top-4 text-gray-500 text-xs transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-brand-gold peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 cursor-text">Tell me about your project...</label>
+                    </div>
+
+                    <button id="booking-btn" type="submit" class="cursor-hover w-full bg-white text-black font-medium tracking-widest py-4 hover:bg-brand-gold transition-colors mt-4">CONFIRM BOOKING REQUEST</button>
+
+                    <!-- Booking Toast Notification -->
+                    <div id="booking-toast" role="status" aria-live="polite" class="fixed bottom-8 right-8 z-[10000] hidden opacity-0 transform translate-y-4 transition-all duration-300">
+                        <div class="max-w-xs bg-[#111111] border border-white/10 text-white px-4 py-3 rounded-lg shadow-2xl flex items-start gap-3">
+                            <div class="flex-shrink-0 text-brand-gold">
+                                <i class="ph ph-check-circle text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-medium">Booking Requested</div>
+                                <div class="text-xs text-gray-400">Your request has been submitted. We'll be in touch shortly.</div>
+                            </div>
+                            <button id="booking-toast-close" class="ml-3 text-gray-400 hover:text-white"><i class="ph ph-x"></i></button>
+                        </div>
+                    </div>
+
+                    <script>
+                    (function(){
+                        const btn = document.getElementById('booking-btn');
+                        if (!btn) return;
+                        const form = btn.form;
+                        const toast = document.getElementById('booking-toast');
+                        const close = document.getElementById('booking-toast-close');
+                        let timer = null;
+
+                        function showToast(timeout = 4000) {
+                            toast.classList.remove('hidden');
+                            // force reflow
+                            void toast.offsetWidth;
+                            toast.classList.remove('translate-y-4');
+                            toast.classList.add('opacity-100');
+
+                            if (timer) clearTimeout(timer);
+                            timer = setTimeout(hideToast, timeout);
+                        }
+
+                        function hideToast() {
+                            toast.classList.add('opacity-0');
+                            toast.classList.add('translate-y-4');
+                            setTimeout(() => toast.classList.add('hidden'), 300);
+                        }
+
+                        if (form) {
+                            form.addEventListener('submit', (e) => {
+                                // allow existing handler to run (it prevents default) then show toast
+                                // show quickly after submit to reflect action
+                                setTimeout(() => showToast(), 100);
+                            });
+                        }
+
+                        close.addEventListener('click', hideToast);
+
+                        // allow ESC to close
+                        document.addEventListener('keydown', (ev) => {
+                            if (ev.key === 'Escape' && !toast.classList.contains('hidden')) hideToast();
+                        });
+                    })();
+                    </script>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Newsletter & Status -->
+    <footer class="border-t border-white/5 py-16 px-6 bg-black">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left">
+                <a href="#" class="cursor-hover font-serif text-2xl text-white italic">JAHID  EDITORIAL</a>
+                <div class="flex items-center justify-center md:justify-start gap-4 mt-2 text-gray-600 text-[10px] tracking-[0.2em]">
+                    <span id="live-time">NY 10:42 AM</span>
+                    <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                    <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> EDITING</span>
+                </div>
+                <p class="text-gray-600 text-[10px] tracking-[0.2em] mt-2">&copy; 2025. ALL RIGHTS RESERVED.</p>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="w-full md:w-auto">
+                <p class="text-xs text-gray-500 mb-2 tracking-widest text-center md:text-left">JOIN THE NEWSLETTER</p>
+
+                <!-- Newsletter Form -->
+                <form id="newsletter-form" class="flex border-b border-gray-800 pb-2" novalidate>
+                    <input id="newsletter-email" type="email" placeholder="Email Address" required class="cursor-hover bg-transparent outline-none text-white text-sm w-64 placeholder-gray-700">
+                    <button id="newsletter-cta" type="submit" class="cursor-hover text-gray-400 hover:text-white uppercase text-xs tracking-widest">Subscribe</button>
+                </form>
+
+                <!-- Newsletter Toast Notification -->
+                <div id="newsletter-toast" role="status" aria-live="polite" class="fixed bottom-8 right-8 z-[10000] hidden opacity-0 transform translate-y-4 transition-all duration-300">
+                    <div class="max-w-xs bg-[#111111] border border-white/10 text-white px-4 py-3 rounded-lg shadow-2xl flex items-start gap-3">
+                        <div class="flex-shrink-0 text-brand-gold">
+                            <i class="ph ph-check-circle text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="text-sm font-medium" id="newsletter-toast-title">Subscribed</div>
+                            <div class="text-xs text-gray-400" id="newsletter-toast-body">Thanks for joining — check your inbox for a welcome email.</div>
+                        </div>
+                        <button id="newsletter-toast-close" class="ml-3 text-gray-400 hover:text-white"><i class="ph ph-x"></i></button>
+                    </div>
+                </div>
+
+                <script>
+                    (function(){
+                        const form = document.getElementById('newsletter-form');
+                        const input = document.getElementById('newsletter-email');
+                        const toast = document.getElementById('newsletter-toast');
+                        const closeBtn = document.getElementById('newsletter-toast-close');
+                        let timer = null;
+
+                        function showNewsletterToast(title, body, timeout = 4000) {
+                            if (title) document.getElementById('newsletter-toast-title').innerText = title;
+                            if (body) document.getElementById('newsletter-toast-body').innerText = body;
+
+                            toast.classList.remove('hidden');
+                            // force reflow to allow transition
+                            void toast.offsetWidth;
+                            toast.classList.remove('translate-y-4');
+                            toast.classList.add('opacity-100');
+
+                            if (timer) clearTimeout(timer);
+                            timer = setTimeout(hideNewsletterToast, timeout);
+                        }
+
+                        function hideNewsletterToast() {
+                            toast.classList.add('opacity-0');
+                            toast.classList.add('translate-y-4');
+                            setTimeout(() => toast.classList.add('hidden'), 300);
+                        }
+
+                        if (form) {
+                            form.addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                const email = input.value.trim();
+                                if (!email) {
+                                    showNewsletterToast('Invalid Email', 'Please enter a valid email address.', 3000);
+                                    return;
+                                }
+
+                                // Simulate subscription (replace with real request)
+                                try {
+                                    // Example: send to API here
+                                } catch (err) {
+                                    showNewsletterToast('Error', 'Subscription failed. Try again later.', 4000);
+                                    return;
+                                }
+
+                                // Clear input and show success toast
+                                input.value = '';
+                                showNewsletterToast('Subscribed', 'Thanks for joining — check your inbox for a welcome email.');
+                            });
+                        }
+
+                        if (closeBtn) closeBtn.addEventListener('click', hideNewsletterToast);
+
+                        // Allow ESC to close
+                        document.addEventListener('keydown', (ev) => {
+                            if (ev.key === 'Escape' && !toast.classList.contains('hidden')) hideNewsletterToast();
+                        });
+                    })();
+                </script>
+            </div>
+
+            <div class="flex space-x-6">
+                <a href="https://www.instagram.com/jahidads" class="cursor-hover text-gray-600 hover:text-white transition-colors"><i class="ph ph-instagram-logo text-xl"></i></a>
+                <a href="https://www.facebook.com/jahidads1" class="cursor-hover text-gray-600 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
+                <a href="https://bd.linkedin.com/in/jahidads" class="cursor-hover text-gray-600 hover:text-white transition-colors"><i class="ph ph-linkedin-logo text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Advanced Lightbox with Color Palette -->
+    <div id="lightbox" class="fixed inset-0 z-[60] bg-black/95 hidden flex justify-center items-center opacity-0 transition-opacity duration-300 backdrop-blur-sm">
+        <button onclick="closeLightbox()" class="cursor-hover absolute top-6 right-6 text-white/50 hover:text-white transition-colors text-4xl focus:outline-none z-[70]">
+            <i class="ph ph-x"></i>
+        </button>
+
+        <button onclick="prevImage()" class="cursor-hover absolute left-4 md:left-10 text-white/50 hover:text-white transition-colors text-4xl z-[70] hidden md:block">
+            <i class="ph ph-caret-left"></i>
+        </button>
+
+        <button onclick="nextImage()" class="cursor-hover absolute right-4 md:right-10 text-white/50 hover:text-white transition-colors text-4xl z-[70] hidden md:block">
+            <i class="ph ph-caret-right"></i>
+        </button>
+        
+        <div class="relative w-full max-w-7xl h-full flex flex-col md:flex-row justify-center items-center p-4 gap-8">
+            <img id="lightbox-img" src="" class="max-h-[85vh] max-w-full object-contain shadow-2xl transition-transform duration-300">
+            
+            <div class="text-center md:text-left min-w-[200px]">
+                <h3 id="lightbox-title" class="font-serif text-2xl text-white italic"></h3>
+                <p id="lightbox-cat" class="text-[10px] tracking-widest text-brand-gold uppercase mt-2 mb-6"></p>
+                
+                <!-- New Color Palette Feature -->
+                <div class="space-y-2">
+                    <p class="text-[10px] text-gray-500 tracking-widest uppercase">COLOR PALETTE</p>
+                    <div class="flex gap-2" id="lightbox-palette">
+                        <!-- Swatches generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" id="scrollTopBtn" class="cursor-hover fixed bottom-8 right-8 bg-brand-gold text-black p-3 rounded-full shadow-lg translate-y-20 transition-transform duration-300 z-40 hover:scale-110">
+        <i class="ph-bold ph-arrow-up"></i>
+    </button>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursor = document.getElementById('custom-cursor');
+        const hoverElements = document.querySelectorAll('.cursor-hover, a, button, input, textarea, .contact-sheet-item, .ctx-item, .nav-dot, .cmd-option, .list-row');
+
+        // Move cursor with mouse
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect to clickable elements
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // --- Command Palette Logic (NEW) ---
+        const cmdPalette = document.getElementById('cmd-palette');
+        const cmdInput = document.getElementById('cmd-input');
+
+        function toggleCmdPalette() {
+            if (cmdPalette.classList.contains('hidden')) {
+                cmdPalette.classList.remove('hidden');
+                setTimeout(() => cmdPalette.classList.remove('opacity-0'), 10);
+                cmdInput.focus();
+                // Hide mobile menu if open
+                const menu = document.getElementById('mobile-menu');
+                if (!menu.classList.contains('translate-x-full')) toggleMenu();
+            } else {
+                cmdPalette.classList.add('opacity-0');
+                setTimeout(() => cmdPalette.classList.add('hidden'), 200);
+            }
+        }
+
+        // Shortcut listener
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                toggleCmdPalette();
+            }
+            if (e.key === 'Escape' && !cmdPalette.classList.contains('hidden')) {
+                toggleCmdPalette();
+            }
+        });
+
+        function navigateTo(selector) {
+            document.querySelector(selector).scrollIntoView({ behavior: 'smooth' });
+            toggleCmdPalette();
+        }
+
+        // --- Portfolio View Toggle Logic (NEW) ---
+        function setPortfolioView(view) {
+            const grid = document.getElementById('gallery-grid-container');
+            const list = document.getElementById('gallery-list-container');
+            const btnGrid = document.getElementById('btn-grid');
+            const btnList = document.getElementById('btn-list');
+
+            if (view === 'grid') {
+                grid.classList.remove('hidden');
+                list.classList.add('hidden');
+                
+                btnGrid.classList.add('text-brand-gold', 'bg-white/10');
+                btnGrid.classList.remove('text-gray-500');
+                
+                btnList.classList.remove('text-brand-gold', 'bg-white/10');
+                btnList.classList.add('text-gray-500');
+            } else {
+                grid.classList.add('hidden');
+                list.classList.remove('hidden');
+                
+                btnList.classList.add('text-brand-gold', 'bg-white/10');
+                btnList.classList.remove('text-gray-500');
+                
+                btnGrid.classList.remove('text-brand-gold', 'bg-white/10');
+                btnGrid.classList.add('text-gray-500');
+            }
+        }
+
+        // --- Custom Context Menu Logic ---
+        const contextMenu = document.getElementById('context-menu');
+        
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            contextMenu.style.display = 'block';
+            contextMenu.style.left = `${x}px`;
+            contextMenu.style.top = `${y}px`;
+        });
+
+        document.addEventListener('click', () => {
+            contextMenu.style.display = 'none';
+        });
+
+        function copyEmail() {
+            navigator.clipboard.writeText('hello@alexsterling.com');
+            alert('Email copied to clipboard');
+        }
+
+        // --- Audio Toggle Logic ---
+        let isAudioPlaying = false;
+
+        // Ambient audio - uses a public sample MP3 for demo. Change `src` as needed.
+        const ambientAudio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+        ambientAudio.loop = true;
+        ambientAudio.preload = 'auto';
+        ambientAudio.volume = 0.25; // reasonable default
+
+        function updateAudioUI() {
+            const icon = document.querySelector('#audio-btn i');
+            const btn = document.getElementById('audio-btn');
+            if (!icon || !btn) return;
+
+            // Desktop control
+            if (isAudioPlaying) {
+                icon.classList.remove('ph-speaker-slash');
+                icon.classList.add('ph-speaker-high');
+                btn.title = 'Pause Ambient Sound';
+            } else {
+                icon.classList.add('ph-speaker-slash');
+                icon.classList.remove('ph-speaker-high');
+                btn.title = 'Ambient Sound';
+            }
+
+            // Mobile control (if present)
+            const mIcon = document.querySelector('#mobile-audio-btn i');
+            const mBtn = document.getElementById('mobile-audio-btn');
+            if (mIcon && mBtn) {
+                if (isAudioPlaying) {
+                    mIcon.classList.remove('ph-speaker-slash');
+                    mIcon.classList.add('ph-speaker-high');
+                    mBtn.title = 'Pause Ambient Sound';
+                } else {
+                    mIcon.classList.add('ph-speaker-slash');
+                    mIcon.classList.remove('ph-speaker-high');
+                    mBtn.title = 'Ambient Sound';
+                }
+            }
+        }
+
+        function toggleAudio() {
+            isAudioPlaying = !isAudioPlaying;
+
+            if (isAudioPlaying) {
+                ambientAudio.play().catch(() => {
+                    // Autoplay may be blocked; UI state will reflect intent until user interacts.
+                });
+            } else {
+                ambientAudio.pause();
+            }
+
+            try {
+                localStorage.setItem('ambientAudioPlaying', isAudioPlaying ? '1' : '0');
+            } catch (e) { /* ignore storage errors */ }
+
+            updateAudioUI();
+        }
+
+        // Restore stored audio state on load (will attempt play but may be blocked until user interaction)
+        try {
+            if (localStorage.getItem('ambientAudioPlaying') === '1') {
+                isAudioPlaying = true;
+                updateAudioUI();
+                ambientAudio.play().catch(() => {});
+            }
+        } catch (e) { /* ignore storage errors */ }
+
+        // Removed: darkroom toggle deleted
+
+        // --- EXIF Toggle Logic ---
+        function toggleExif() {
+            const container = document.getElementById('gallery-grid-container');
+            const toggle = document.getElementById('exif-toggle').querySelector('div');
+            
+            container.classList.toggle('show-exif');
+            
+            if (container.classList.contains('show-exif')) {
+                toggle.classList.remove('left-1');
+                toggle.classList.add('translate-x-5');
+                toggle.parentElement.classList.remove('bg-gray-700');
+                toggle.parentElement.classList.add('bg-brand-gold');
+            } else {
+                toggle.classList.add('left-1');
+                toggle.classList.remove('translate-x-5');
+                toggle.parentElement.classList.add('bg-gray-700');
+                toggle.parentElement.classList.remove('bg-brand-gold');
+            }
+        }
+
+        // --- "Developing" Scroll Reveal Animation ---
+        const developObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('developed');
+                    }, Math.random() * 500);
+                    developObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.develop-reveal').forEach(el => developObserver.observe(el));
+
+        // --- Dot Navigation Logic ---
+        const dots = document.querySelectorAll('.nav-dot');
+        const sections = ['home', 'portfolio', 'archive', 'gear', 'workshops', 'shop', 'contact'];
+        
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    dots.forEach(dot => {
+                        if (dot.getAttribute('data-label').toLowerCase() === id) {
+                            dot.classList.add('active');
+                        } else {
+                            dot.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) navObserver.observe(el);
+        });
+
+        // --- Parallax Text Logic ---
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const text1 = document.getElementById('parallax-text-1');
+            const text2 = document.getElementById('parallax-text-2');
+            
+            // Move text in opposite directions
+            if(text1 && text2) {
+                text1.style.transform = `translateX(${scrollY * 0.1}px)`;
+                text2.style.transform = `translateX(-${scrollY * 0.1}px)`;
+            }
+        });
+
+        // --- Countdown Logic ---
+        // Set deadline to 2 days from now for demo
+        const deadline = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 14 * 60 * 60 * 1000 + 35 * 60 * 1000);
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = deadline - now;
+            
+            if (distance < 0) return; // Expired
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const dayEl = document.getElementById('d-days');
+            if (dayEl) {
+                dayEl.innerText = String(days).padStart(2, '0');
+                document.getElementById('d-hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('d-mins').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('d-secs').innerText = String(seconds).padStart(2, '0');
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- Loupe Logic for Contact Sheet ---
+        const contactItems = document.querySelectorAll('.contact-sheet-item');
+        contactItems.forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const loupe = item.querySelector('.loupe');
+                const rect = item.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                loupe.style.left = x + 'px';
+                loupe.style.top = y + 'px';
+                
+                const bgX = (x / rect.width) * 100;
+                const bgY = (y / rect.height) * 100;
+                
+                loupe.style.backgroundPosition = `${bgX}% ${bgY}%`;
+                loupe.style.backgroundSize = `${rect.width * 2}px ${rect.height * 2}px`; // 2x Zoom
+            });
+        });
+
+        // --- Scroll Progress Bar Logic ---
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / scrollHeight) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + "%";
+        });
+
+        // --- 3D Tilt Effect Logic ---
+        const cards = document.querySelectorAll('.tilt-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
+
+        // --- Before/After Slider Logic ---
+        function updateCompare(val) {
+            const resizeElement = document.getElementById('ba-resize');
+            const handleElement = document.getElementById('ba-handle');
+            resizeElement.style.width = val + "%";
+            handleElement.style.left = val + "%";
+        }
+
+        // --- Preloader ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // --- Hero Slider ---
+        const slides = document.querySelectorAll('#hero-slider > div');
+        let currentSlide = 0;
+        
+        setInterval(() => {
+            slides[currentSlide].classList.remove('opacity-100');
+            slides[currentSlide].classList.add('opacity-0');
+            
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            slides[currentSlide].classList.remove('opacity-0');
+            slides[currentSlide].classList.add('opacity-100');
+        }, 5000);
+
+        // --- Navbar Glassmorphism & Scroll Top Button ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                navbar.classList.remove('py-6');
+                scrollBtn.classList.remove('translate-y-20');
+            } else {
+                navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'shadow-lg', 'py-4');
+                navbar.classList.add('py-6');
+                scrollBtn.classList.add('translate-y-20');
+            }
+        });
+
+        // --- Scroll Reveal Animation ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- FAQ Accordion Logic ---
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.classList.remove('rotate-45');
+            } else {
+                // Close others (optional)
+                document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                document.querySelectorAll('.ph-plus').forEach(i => i.classList.remove('rotate-45'));
+
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.classList.add('rotate-45');
+            }
+        }
+
+        // --- Mobile Menu ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const isOpen = !menu.classList.contains('translate-x-full');
+            
+            if (isOpen) {
+                menu.classList.add('translate-x-full');
+                icon.classList.remove('ph-x');
+                icon.classList.add('ph-list');
+                document.body.style.overflow = 'auto';
+            } else {
+                menu.classList.remove('translate-x-full');
+                icon.classList.remove('ph-list');
+                icon.classList.add('ph-x');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // --- Gallery Data with Color Palettes ---
+        const galleryData = [
+            { 
+                src: 'image/jahid.png', 
+                category: 'fashion', 
+                title: 'Vogue Sepia',
+                colors: ['#4a3b32', '#d4af37', '#1a1a1a', '#8c7b6e']
+            },
+            { 
+                src: 'https://cdn.pixabay.com/photo/2023/06/03/12/52/lantana-8037634_640.jpg', 
+                category: 'bnw', 
+                title: 'Silent Gaze',
+                colors: ['#000000', '#333333', '#666666', '#ffffff'] 
+            },
+            { 
+                src: 'https://cdn.pixabay.com/photo/2016/11/15/07/37/water-lilies-1825477_640.jpg', 
+                category: 'travel', 
+                title: 'Highlands',
+                colors: ['#2f3e46', '#52796f', '#84a98c', '#cad2c5']
+            },
+            { 
+                src: 'image/jahid2.jpg', 
+                category: 'fashion', 
+                title: 'Urban Chic',
+                colors: ['#3d405b', '#e07a5f', '#f2cc8f', '#81b29a']
+            },
+            { 
+                src: 'image/jahid3.jpg', 
+                category: 'travel', 
+                title: 'Alpine Mist',
+                colors: ['#1d3557', '#457b9d', '#a8dadc', '#f1faee']
+            },
+            { 
+                src: 'https://cdn.pixabay.com/photo/2018/03/07/00/08/flower-3204966_640.jpg', 
+                category: 'bnw', 
+                title: 'Connection',
+                colors: ['#111111', '#444444', '#999999', '#dddddd']
+            }
+        ];
+
+        // --- Filter Logic ---
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                if(btn.dataset.filter === category) {
+                    btn.classList.add('text-white', 'border-white');
+                    btn.classList.remove('text-gray-500', 'border-transparent');
+                } else {
+                    btn.classList.remove('text-white', 'border-white');
+                    btn.classList.add('text-gray-500', 'border-transparent');
+                }
+            });
+
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.style.display = 'none';
+                    item.style.opacity = '0';
+                }
+            });
+        }
+
+        // --- Advanced Lightbox Logic ---
+        let currentImageIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lImg = document.getElementById('lightbox-img');
+        const lTitle = document.getElementById('lightbox-title');
+        const lCat = document.getElementById('lightbox-cat');
+        const lPalette = document.getElementById('lightbox-palette');
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            updateLightboxContent();
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => lightbox.classList.add('hidden'), 300);
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateLightboxContent() {
+            const item = galleryData[currentImageIndex];
+            lImg.style.opacity = '0.5'; 
+            
+            // Generate Palette
+            lPalette.innerHTML = '';
+            if (item.colors) {
+                item.colors.forEach(color => {
+                    const swatch = document.createElement('div');
+                    swatch.className = 'w-6 h-6 rounded-full border border-white/20';
+                    swatch.style.backgroundColor = color;
+                    lPalette.appendChild(swatch);
+                });
+            }
+
+            setTimeout(() => {
+                lImg.src = item.src;
+                lTitle.innerText = item.title;
+                lCat.innerText = item.category;
+                lImg.style.opacity = '1';
+            }, 150);
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + galleryData.length) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('hidden')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // --- Contact Form ---
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = 'REQUEST SENT';
+            btn.classList.add('bg-green-600', 'text-white');
+            
+            setTimeout(() => {
+                e.target.reset();
+                btn.innerText = originalText;
+                btn.classList.remove('bg-green-600');
+            }, 3000);
+        }
+
+        // --- Client Modal Logic ---
+        const clientModal = document.getElementById('client-modal');
+        function toggleClientModal() {
+            const isOpen = !clientModal.classList.contains('hidden');
+            if (isOpen) {
+                clientModal.classList.add('opacity-0');
+                document.getElementById('client-modal-content').classList.add('scale-95');
+                setTimeout(() => clientModal.classList.add('hidden'), 300);
+            } else {
+                clientModal.classList.remove('hidden');
+                setTimeout(() => {
+                    clientModal.classList.remove('opacity-0');
+                    document.getElementById('client-modal-content').classList.remove('scale-95');
+                }, 10);
+            }
+        }
+
+        function handleClientLogin(e) {
+            e.preventDefault();
+            alert("This is a demo. In a real app, this would redirect to a private gallery.");
+            toggleClientModal();
+        }
+
+        // --- Shop Scroll Logic ---
+        function scrollShop(direction) {
+            const container = document.getElementById('shop-scroll');
+            const scrollAmount = 400;
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // --- Testimonials Slider Logic ---
+        const testimonials = [
+            {
+                text: "Alex doesn't just take photos; he captures feelings. The way he plays with light is nothing short of masterful. Absolutely the best investment for our brand.",
+                author: "Sarah Jenkins, Creative Director at Vogue Lite"
+            },
+            {
+                text: "We flew Alex to Tokyo for our campaign and it was seamless. Professional, artistic, and incredibly efficient. The final shots were breathtaking.",
+                author: "Kenji Sato, Marketing Lead at Sony Japan"
+            },
+            {
+                text: "I hate having my photo taken, but Alex made me feel so comfortable. The portraits feel authentic and raw. I couldn't be happier.",
+                author: "Elena Fisher, Journalist"
+            }
+        ];
+
+        function setTestimonial(index) {
+            const container = document.getElementById('testimonial-container');
+            const text = document.getElementById('testimonial-text');
+            const author = document.getElementById('testimonial-author');
+            const dots = document.querySelectorAll('.testimonial-dot');
+
+            container.style.opacity = '0';
+            
+            setTimeout(() => {
+                text.innerText = `"${testimonials[index].text}"`;
+                author.innerText = `— ${testimonials[index].author}`;
+                container.style.opacity = '1';
+            }, 500);
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-gray-600');
+                } else {
+                    dot.classList.add('bg-gray-600');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        }
+        
+        // Auto rotate testimonials
+        let currentTestimonial = 0;
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            setTestimonial(currentTestimonial);
+        }, 6000);
+
+        // --- Calendar Logic (Basic Selection) ---
+        const days = document.querySelectorAll('.calendar-day:not(.disabled)');
+        days.forEach(day => {
+            day.addEventListener('click', function() {
+                // Remove selected from all
+                days.forEach(d => d.classList.remove('selected', 'bg-brand-gold', 'text-black'));
+                
+                // Add to clicked
+                this.classList.add('selected', 'bg-brand-gold', 'text-black');
+            });
+        });
+
+        // --- Lens Simulator Logic ---
+        const lensData = {
+            '35mm': {
+                src: 'https://cdn.pixabay.com/photo/2016/02/17/19/08/lotus-1205631_640.jpg', // Wide context
+                label: '35MM',
+                desc: 'Environmental Context'
+            },
+            '50mm': {
+                src: 'https://cdn.pixabay.com/photo/2023/10/24/10/13/insect-8337915_640.jpg', // Standard
+                label: '50MM',
+                desc: 'Natural Perspective'
+            },
+            '85mm': {
+                src: 'https://cdn.pixabay.com/photo/2022/03/14/01/50/flower-7067153_640.jpg', // Tight/Bokeh
+                label: '85MM',
+                desc: 'Subject Isolation'
+            }
+        };
+
+        function changeLens(lens) {
+            const img = document.getElementById('lens-img');
+            const label = document.getElementById('lens-label');
+            const desc = document.getElementById('lens-desc');
+            const btns = document.querySelectorAll('.lens-btn');
+
+            // Fade out
+            img.style.opacity = '0';
+
+            setTimeout(() => {
+                img.src = lensData[lens].src;
+                label.innerText = lensData[lens].label;
+                desc.innerText = lensData[lens].desc;
+                img.style.opacity = '1';
+            }, 300);
+
+            btns.forEach(btn => {
+                if (btn.dataset.lens === lens) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // --- Favorites "Moodboard" Logic ---
+        let favorites = 0;
+        function toggleFavorite(btn) {
+            const icon = btn.querySelector('i');
+            const counter = document.getElementById('moodboard-counter');
+            const countSpan = document.getElementById('fav-count');
+
+            // Prevent click from opening lightbox
+            event.stopPropagation();
+
+            if (icon.classList.contains('text-red-500')) {
+                // Unlike
+                icon.classList.remove('text-red-500', 'active');
+                icon.classList.add('text-white');
+                favorites--;
+            } else {
+                // Like
+                icon.classList.remove('text-white');
+                icon.classList.add('text-red-500', 'active');
+                favorites++;
+            }
+
+            countSpan.innerText = favorites;
+            
+            if (favorites > 0) {
+                counter.classList.remove('hidden');
+                counter.classList.add('flex');
+            } else {
+                counter.classList.add('hidden');
+                counter.classList.remove('flex');
+            }
+        }
+
+        // --- Live Time in Footer ---
+        function updateTime() {
+            const timeEl = document.getElementById('live-time');
+            const now = new Date();
+            const options = { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' };
+            timeEl.innerText = "NY " + now.toLocaleTimeString('en-US', options);
+        }
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call
+
+    </script>
+</body>
+</html>
